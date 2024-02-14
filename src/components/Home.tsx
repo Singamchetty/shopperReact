@@ -1,10 +1,12 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
+import axios from 'axios';
 
 const Home = memo(() => {
+    
+
     return (
         <div>
-            Hello
-            
+          Home    
         </div>
     );
 });
