@@ -19,19 +19,19 @@ connectToDb((err)=>{
 })
 
 
-// app.get('/products', (req, res) => {
-//     db.collection('products').find().sort({id:-1}).toArray()
-//     .then(result => {res.send(result)})
-//     .catch(error => res.status(500).send(error))
-// })
-
 app.get('/products', (req, res) => {
-    const  pageIndex=parseInt(req.query.p || "0")
-    let pageSize=5;
-    db.collection('products').find().skip(pageIndex*pageSize).limit(pageSize).toArray()
+    db.collection('products').find().toArray()
     .then(result => {res.send(result)})
     .catch(error => res.status(500).send(error))
 })
+
+// app.get('/products', (req, res) => {
+//     const  pageIndex=parseInt(req.query.p || "0")
+//     let pageSize=5;
+//     db.collection('products').find().skip(pageIndex*pageSize).limit(pageSize).toArray()
+//     .then(result => {res.send(result)})
+//     .catch(error => res.status(500).send(error))
+// })
 
 app.get('/products/:id', (req, res) => {
     const Id = Number(req.params.id)
