@@ -1,44 +1,59 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import './Register.css';
+import {useSelector, useDispatch} from 'react-redux'
+import { fetchUsers } from '../../reduxstore/usersSlice';
+import { RootState } from '../../reduxstore/store';
 
-const Register = memo(() => {
-    // const [userId,setUserId]=useState('')
-    // const [fname,setFname]=useState('')
-    // const [lname,setLname]=useState('')
-    // const [email,setEmail]=useState('')
-    // const [mobile,setMobile]=useState('')
-    // const [password,setPassword]=useState('')
-    // const [confirmpassword,setConfirmpassword]=useState('')
-    
-    // const values1={
-    //     "userId":userId,
-    //     "fname":fname,
-    //     "lname":lname,
-    //     "email": email.toLowerCase(),
-    //     "mobno": mobile,
-    //     "passwd": password,
-    //     "c_passwd": confirmpassword
-    // }
+const Register = () => {
+    const navigate=useNavigate()
+    const dispatch=useDispatch()
+    const users=useSelector((state:RootState)=> state.users.users)
+    const [userErr,setUserErr]=useState<string>('')
+    const [enablesubmit, setEnablesubmit] = useState(true);
 
-    const [values, setValues] = useState({
-        userid: "",
+    const [values, setValues] = useState<any>({
+        userId: "",
         fname: "",
         lname: "",
         email: "",
-        mobno: "",
-        passwd: "",
-        c_passwd: ""
-    })
+        mobile: "",
+        password: ""
+        })
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setValues({ ...values, [name]: value });
+        setValues({ ...values, [name]: value })     
       };
+
+      const validateUserID=useCallback(()=>{
+            users.map((user)=>{
+                if(user.userId==values.userId.trim()){
+                    setUserErr("userId taken")
+                    setEnablesubmit(true)
+                }else{
+                    setUserErr("userId available")
+                    setEnablesubmit(false)
+                }
+            })
+
+      },[values])
+
+      useEffect(()=>{validateUserID()},[values])
 
     const handleSubmit=(e:any)=>{
         e.preventDefault()
-        console.log(values)
+        axios.post('http://localhost:4000/registeruser', values)
+        .then((res)=>{
+            navigate("/login")
+            console.log(res.data)})
+        .catch((err)=>console.log(err))
     }
+  
+    useEffect(() => {
+      dispatch(fetchUsers());
+    }, []);
  
     return (
         <div className='wrapper'>
@@ -50,9 +65,14 @@ const Register = memo(() => {
                         <tr>
                             {/* <div className='userId'> */}
                                 <td><label>User ID : </label></td>
-                                <td><input value={values.userid} name='userid' onChange={handleChange}/></td>
+                                <td><input value={values.userId} name='userId' onChange={handleChange}/></td>
                             {/* </div> */}
                         </tr>
+                       {
+                        userErr!="" &&  <tr>
+                        <td colSpan={2} style={{textAlign:"center",color:"red"}}><span>{userErr}</span></td>
+                    </tr>
+                       }
                         <tr>
                             {/* <div className='fname'> */}
                                 <td><label>First Name : </label></td>
@@ -74,25 +94,19 @@ const Register = memo(() => {
                         <tr>
                             {/* <div className='mobile'> */}
                                 <td><label>Mobile : </label></td>
-                                <td><input value={values.mobno} name='mobno' onChange={handleChange}/></td>
+                                <td><input value={values.mobile} name='mobile' onChange={handleChange}/></td>
                             {/* </div> */}
                         </tr>
                         <tr>
                             {/* <div className='password'> */}
                                 <td><label>Password : </label></td>
-                                <td><input value={values.passwd} name='passwd' onChange={handleChange}/></td>
-                            {/* </div> */}
-                        </tr>
-                        <tr>
-                            {/* <div className='confirmpassword'> */}
-                                <td><label>Confirm Password : </label></td>
-                                <td><input value={values.c_passwd} name='c_passwd' onChange={handleChange}/></td>
+                                <td><input value={values.password} name='password' onChange={handleChange}/></td>
                             {/* </div> */}
                         </tr>
                         <tr>
                             <td></td>
                             <div className='submit'>
-                                <td><button>Submit</button></td>
+                                <td><button type='submit' disabled={enablesubmit}>Submit</button></td>
                             </div>
                         </tr>
                     </table>
@@ -100,6 +114,5 @@ const Register = memo(() => {
             </div>   
         </div>
     );
-});
- 
+};
 export default Register;
