@@ -46,7 +46,7 @@ app.get('/products/:id', (req, res) => {
 
 // Middleware function to check if userId already exists
 const checkUserIdExists = (req, res, next) => {
-    const userId = trim(req.body.userId);
+    const userId = req.body.userId.trim();
     db.collection('users').findOne({ userId: userId })
     .then(result => {
         if (result) {
@@ -57,7 +57,7 @@ const checkUserIdExists = (req, res, next) => {
     })
     .catch(error => res.status(500).json({ error: "Internal server error" }));
 };
-
+ 
 // Register User endpoint with middleware
 app.post('/registeruser', checkUserIdExists, (req, res) => {
     const user = req.body;
@@ -69,7 +69,7 @@ app.post('/registeruser', checkUserIdExists, (req, res) => {
     })
     .catch(err => res.status(500).json({ error: "Could not create a new document" }));
 });
-
+ 
 // Get Users endpoint
 app.get('/users', (req, res) => {
     db.collection('users').find({}, { projection: { _id: false, userId: true, password: true } }).toArray()
@@ -79,12 +79,11 @@ app.get('/users', (req, res) => {
     .catch(error => res.status(500).send(error));
 });
 
-
 app.delete('/deregister/:userid', (req, res) => {
     const userid = req.params.userid
     if(isNaN(userid)){
         db.collection('users').deleteOne({userId:userid})
-        .then(result => { 
+        .then(result => {
             res.send(result)
             db.collection('cartitems').deleteOne({userId:userid})
          })
@@ -93,7 +92,7 @@ app.delete('/deregister/:userid', (req, res) => {
         res.status(500).json({ error: 'Invalid ID' })
     }
 })
-
+ 
 app.patch('/updateuser/:id', (req, res) => {
     const Id = req.params.id
     const data = req.body
@@ -106,8 +105,6 @@ app.patch('/updateuser/:id', (req, res) => {
     }
 })
 
-
-
 app.get('/cartItems/:userid', (req, res) => {
     const userid = req.params.userid
     if(isNaN(userid)){
@@ -118,11 +115,10 @@ app.get('/cartItems/:userid', (req, res) => {
         res.status(500).json({ error: 'Invalid UserId' })
     }
 })
-
+ 
 app.post('/updateCartItems/:userid', (req, res) => {
     const userid=req.params.userid
     const newCartItems = req.body
-    console.log(newCartItems)
     if(isNaN(userid)){
         db.collection('cartitems').updateOne({userId: userid},{$set:{cartItems:newCartItems}})
         .then(result => { res.send(result).status(200) })
