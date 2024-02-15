@@ -1,24 +1,44 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-const initialState={
-    numOfCakes:10,
-}
+type cartStateType = {
+    loading: boolean;
+    cartItems: any[]; 
+    error: string | undefined;
+};
 
-const cakeSlice=createSlice({
-    name:'cake',
+const initialState: cartStateType = {
+    loading: false,
+    cartItems: [],
+    error: ''
+};
+
+export const fetchCartItems:any= createAsyncThunk('cart/fetchCartItems', async (userid) => {
+    return await axios.get(`http://localhost:4000/cartItems/${userid}`)
+        .then(response => response.data);
+});
+
+const cartSlice = createSlice({
+    name: 'cartItems', 
     initialState,
-    reducers:{
-        ordered:(state)=>{
-            state.numOfCakes--
-        },
-        restocked:(state,action)=>{
-            state.numOfCakes+=action.payload
-        },
-    },
-})
+    reducers: {}, 
+    extraReducers: builder => {
+        builder.addCase(fetchCartItems.pending, (state) => {
+            state.loading = true;
+            state.error="pending"
+        });
+        builder.addCase(fetchCartItems.fulfilled, (state, action) => {
+            state.loading = false;
+            state.cartItems = action.payload;
+            state.error = '';
+        });
+        builder.addCase(fetchCartItems.rejected, (state, action) => {
+            state.loading = false;
+            state.cartItems = [];
+            state.error = action.error || 'Something went wrong!';
+        });
+    }
+});
 
-export default cakeSlice.reducer
-export const{ordered,restocked}=cakeSlice.actions
-
-
-
+export default cartSlice.reducer;
+export type CartStateType = ReturnType<typeof cartSlice.reducer>;
