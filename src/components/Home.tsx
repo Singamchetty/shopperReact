@@ -17,7 +17,7 @@ const Home = memo(() => {
 
   const testDispatch=useCallback(()=>{
     console.log(users)
-    dispatch(updateCartItems({userId:"bhanu",updateCartlist:Items}))
+    dispatch(updateCartItems({userId:"Prashanth",updateCartlist:Items}))
   },[users])
 
   useEffect(() => {
