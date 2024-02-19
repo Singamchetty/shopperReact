@@ -1,4 +1,7 @@
 import React, { memo } from 'react';
+import { useDispatch,useSelector } from 'react-redux';
+import { updateCartItems } from '../../reduxstore/updatecartSlice';
+import { RootState } from '../../reduxstore/store';
 
 type ProductType = {
     _id:string
@@ -15,9 +18,21 @@ type ProductType = {
 type ProductPropsType = {
     product: ProductType  | null
 }
+
 const Product = memo((props: ProductPropsType) => {
-    console.log(props.product)
+    const user= useSelector((state: RootState) => state.userDetails.userDetails)
+    const dispatch=useDispatch()
+  
     const {id,title,description,category,image,rating:{rate,count},qty,price}:ProductType= props.product!;
+
+    const handleAddtoCart=()=>{
+        if(Object.keys(user).length!=0){
+        dispatch(updateCartItems({userId:user.userId,updateCartItems:props.product}))
+        }    
+    }
+
+
+
     return (<div className='col-lg-4 col-md-2 col-sm-1 my-2' style={{width: "300px"}}>
         <div className="card" >
             <img src={image} className="img-fluid" style={{width:"100%",height:"200px"}} alt="..."/>
@@ -31,7 +46,7 @@ const Product = memo((props: ProductPropsType) => {
                     <li className="list-group-item">Price :{price}</li>
                 </ul>
                 <div className="card-body">
-                    <button className='btn btn-danger w-100'>Add To Cart</button>
+                    <button className='btn btn-danger w-100' onClick={handleAddtoCart}>Add To Cart</button>
                 </div>
         </div>
     </div>

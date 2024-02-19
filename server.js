@@ -119,12 +119,13 @@ app.get('/cartItems/:userid', (req, res) => {
  
 app.post('/updateCartItems/:userid', (req, res) => {
     const userid=req.params.userid
-    const newCartItems = req.body
-    if(isNaN(userid)){
-        db.collection('cartitems').updateOne({userId: userid},{$set:{cartItems:newCartItems}})
-        .then(result => { res.send(result).status(200) })
-        .catch(error => res.status(500).send(error))
-    } else {
-        res.status(500).json({ error: 'Invalid UserId' })
-    }
+    const newCartItems = req.body.ObjectId
+    console.log(req.body,userid)
+    // if(isNaN(userid)){
+    //     db.collection('cartitems').updateOne({userId: userid},{$set:{cartItems:[newCartItems]}})
+    //     .then(result => { res.send(result).status(200) })
+    //     .catch(error => res.status(500).send(error))
+    // } else {
+    //     res.status(500).json({ error: 'Invalid UserId' })
+    // }
 })

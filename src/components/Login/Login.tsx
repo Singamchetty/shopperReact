@@ -78,7 +78,7 @@ const Login: React.FC = memo(() => {
                     <button type="submit" >Login</button>
                 </form>
                 <p className='loginsignup-login'>
-                    <span>If new user please  <Link to="/register">Register</Link></span>
+                    <span>New user <Link to="/register">Register</Link></span>
                 </p>
                
             </div>

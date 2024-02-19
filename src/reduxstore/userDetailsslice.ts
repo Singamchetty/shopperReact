@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 export type UserDetailsType={
-    userDetails:{}|null
+    userDetails:any|null
 }
 const initialState:UserDetailsType={
     userDetails:{},
@@ -14,7 +14,7 @@ const userDetailsSlice=createSlice({
             state.userDetails=action.payload
         },
         logoutUser:(state)=>{
-            state.userDetails=[]
+            state.userDetails={}
         },
     },
 })

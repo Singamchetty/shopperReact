@@ -11,7 +11,7 @@ const Products = memo(() => {
     const dispatch=useDispatch()
     const products = useSelector((state: RootState) => state.products);
     const user = useSelector((state: RootState) => state.userDetails.userDetails)
-    console.log(products)
+    
     useEffect(() => {
         if (user !== null) {
             const isEmpty = Object.keys(user).length === 0 && user.constructor === Object;
@@ -19,6 +19,7 @@ const Products = memo(() => {
                 navigate('/login');
             } else {
                 dispatch(fetchProducts());
+                console.log(user)
             }
         } else {
             navigate('/login');
