@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux'
 import { fetchUsers } from '../../reduxstore/usersSlice';
 import { RootState } from '../../reduxstore/store';
+import { loginUser } from '../../reduxstore/userDetailsslice';
 
  
 const Login: React.FC = memo(() => {
@@ -18,12 +19,6 @@ const Login: React.FC = memo(() => {
         userId: "",
         password: ""
         })
-//     const validateUserID=useCallback(()=>{
-        
-
-//   },[values]) 
-
-//   useEffect(()=>{validateUserID()},[values])
  
   useEffect(() => {
         dispatch(fetchUsers());
@@ -35,8 +30,10 @@ const Login: React.FC = memo(() => {
         users.map((user)=>{
             if(user.userId==values.userId.trim()){
                 if(user.password==values.password.trim()){
-                    console.log(user.userId)                
-                   navigate("/")
+                    // console.log(user)  
+                   dispatch(loginUser(user))              
+                   navigate("/products")
+
                 }
                 else{
                     setError(("UserId/Password is incorrect"))
@@ -56,7 +53,7 @@ const Login: React.FC = memo(() => {
       };
  
     return (
-        <div className='loginsignup'>
+        <div className='loginsignup py-5'>
             <div className='loginsignup-container'>
                 <h1>Log In</h1>
                 <form onSubmit={handleSubmit}>
@@ -81,7 +78,7 @@ const Login: React.FC = memo(() => {
                     <button type="submit" >Login</button>
                 </form>
                 <p className='loginsignup-login'>
-                    <span>  <Link to="/forgot-password">Forgot Password</Link></span>
+                    <span>If new user please  <Link to="/register">Register</Link></span>
                 </p>
                
             </div>

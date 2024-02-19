@@ -1,6 +1,6 @@
 import React, { memo, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Register.css';
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchUsers } from '../../reduxstore/usersSlice';
@@ -10,7 +10,7 @@ const Register = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const users = useSelector((state: RootState) => state.users.users)
-    const [userErr, setUserErr] = useState<any|null>(null);
+    const [userErr, setUserErr] = useState<any | null>(null);
     const [enablesubmit, setEnablesubmit] = useState<boolean>(true);
 
     const [values, setValues] = useState<any>({
@@ -27,7 +27,7 @@ const Register = () => {
         setValues({ ...values, [name]: value })
     };
 
-    const validateUserID =useCallback( () => {
+    const validateUserID = useCallback(() => {
         let errors = {
             userIdErr: "",
             fnameErr: "",
@@ -38,49 +38,49 @@ const Register = () => {
         };
 
         if (values.userId !== "" && values.userId.length < 5) {
-            errors.userIdErr= "UserId should have atleast 5 to 10 characters"
+            errors.userIdErr = "UserId should have atleast 5 to 10 characters"
         }
         if (values.userId !== "" && values.userId.length >= 5) {
             users.map((user) => {
                 if (user.userId == values.userId.trim()) {
-                    errors.userIdErr= "User ID is already taken"
+                    errors.userIdErr = "User ID is already taken"
                 } else {
-                    errors.userIdErr= ""
+                    errors.userIdErr = ""
                 }
             })
         }
         if (values.fname != "" && values.fname.length <= 4) {
-            errors.fnameErr= "Name should be more than 4 characters"
-        }else {
-            errors.fnameErr= ""
+            errors.fnameErr = "Name should be more than 4 characters"
+        } else {
+            errors.fnameErr = ""
         }
         if (values.lname != "" && values.lname.length <= 4) {
-            errors.lnameErr= "Last Name should be more than 4 characters"
-        }else {
-            errors.lnameErr= ""
+            errors.lnameErr = "Last Name should be more than 4 characters"
+        } else {
+            errors.lnameErr = ""
         }
         if (values.email !== "") {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(values.email)) {
-                errors.emailErr="Enter valid email address"
+                errors.emailErr = "Enter valid email address"
             } else {
-                errors.emailErr=""
+                errors.emailErr = ""
             }
         }
         if (values.mobile !== "") {
             const mobileRegex = /^\d{10}$/;
             if (!mobileRegex.test(values.mobile)) {
-                errors.mobileErr= "Enter valid mobile number" 
+                errors.mobileErr = "Enter valid mobile number"
             } else {
-                errors.mobileErr= "" 
+                errors.mobileErr = ""
             }
         }
         if (values.password !== "") {
             const passwordRegex = /^(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,}$/;
             if (!passwordRegex.test(values.password)) {
-                errors.passwordErr= "Password >5 characters and one special character"
+                errors.passwordErr = "Password >5 characters and one special character"
             } else {
-                errors.passwordErr= ""
+                errors.passwordErr = ""
             }
         }
 
@@ -97,17 +97,17 @@ const Register = () => {
             Object.values(errors).every(error => error === "")
         ) {
             setEnablesubmit(false);
-        }else {
+        } else {
             setEnablesubmit(true);
         }
         setUserErr(errors);
-    },[values])
+    }, [values])
 
 
 
     useEffect(() => {
         validateUserID();
-    }, [values,validateUserID]);
+    }, [values, validateUserID]);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
@@ -128,7 +128,6 @@ const Register = () => {
             <div className='form-wrapper'>
                 <h2>Registration Form</h2>
                 <form onSubmit={handleSubmit} noValidate={true}>
-
                     <table>
                         <tbody>
                             <tr>
@@ -154,7 +153,7 @@ const Register = () => {
                                 <td><input value={values.lname} name='lname' onChange={handleChange} type='text' /></td>
                             </tr>
                             {
-                                userErr&& <tr>
+                                userErr && <tr>
                                     <td colSpan={2} style={{ textAlign: "center", color: "red" }}><span>{userErr.lnameErr}</span></td>
                                 </tr>
                             }
@@ -186,12 +185,17 @@ const Register = () => {
                                 </tr>
                             }
                             <tr>
-                                <td colSpan={2} style={{textAlign:"center"}}><button type='submit' disabled={enablesubmit} style={enablesubmit ? { width: "100px",height:"30px", color: "black", fontWeight: "bolder", backgroundColor: "grey",borderRadius:"50%",boxShadow:"0px 0px 10px",marginTop:"10px"} : {color: "white", backgroundColor: "green",width: "100px",height:"30px",borderRadius:"50%",boxShadow:"0px 0px 20px black",marginTop:"10px" }}>Submit</button></td>
+                                <td colSpan={2} style={{ textAlign: "center" }}><button type='submit' disabled={enablesubmit} style={enablesubmit ? { width: "100px", height: "30px", color: "black", fontWeight: "bolder", backgroundColor: "grey", borderRadius: "10%", boxShadow: "0px 0px 10px", marginTop: "10px" } : { color: "white", backgroundColor: "green", width: "100px", height: "30px", borderRadius: "10%", boxShadow: "0px 0px 20px black", marginTop: "10px" }}>Submit</button></td>
                             </tr>
                         </tbody>
                     </table>
                 </form>
+
+                <div className='d-flex justify-content-end mt-3'>
+                <span>Already registered <Link to={"/login"}><button className='btn btn-warning'>Sign In</button></Link></span>
             </div>
+            </div>
+            
         </div>
     );
 };
