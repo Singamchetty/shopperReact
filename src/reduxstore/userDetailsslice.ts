@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit"
-type UserDetailsType={
-    userDetails:any[]|null
+export type UserDetailsType={
+    userDetails:{}|null
 }
 const initialState:UserDetailsType={
-    userDetails:[],
+    userDetails:{},
 }
 
 const userDetailsSlice=createSlice({
