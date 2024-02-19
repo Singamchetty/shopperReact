@@ -109,23 +109,46 @@ app.patch('/updateuser/:id', (req, res) => {
 app.get('/cartItems/:userid', (req, res) => {
     const userid = req.params.userid
     if(isNaN(userid)){
-        db.collection('cartitems').find({userId: userid}).toArray()
+        db.collection('cartitems').findOne({userId: userid})
         .then(result => { res.send(result) })
         .catch(error => res.status(500).send(error))
     } else {
         res.status(500).json({ error: 'Invalid UserId' })
     }
 })
- 
-app.post('/updateCartItems/:userid', (req, res) => {
-    const userid=req.params.userid
-    const newCartItems = req.body.ObjectId
-    console.log(req.body,userid)
-    // if(isNaN(userid)){
-    //     db.collection('cartitems').updateOne({userId: userid},{$set:{cartItems:[newCartItems]}})
-    //     .then(result => { res.send(result).status(200) })
-    //     .catch(error => res.status(500).send(error))
-    // } else {
-    //     res.status(500).json({ error: 'Invalid UserId' })
-    // }
-})
+
+app.patch('/updateCartItems/:userid', async (req, res) => {
+    const userid = req.params.userid;
+    const newCartItem = req.body;
+
+    // Check if userid is a number
+    if (!isNaN(userid)) { 
+        return res.status(400).json({ error: 'Invalid UserId' });
+    }
+
+    try {
+        const cart = await db.collection('cartitems').findOne({ userId: userid });
+
+        if (!cart) {
+            // If cart doesn't exist, create a new one with the newCartItem
+            await db.collection('cartitems').insertOne({ userId: userid, cartItems: [newCartItem] });
+            return res.status(200).json({ message: 'Cart created with new item' });
+        }
+
+        // Check if the item already exists in the cart
+        const existingItemIndex = cart.cartItems.findIndex(item => item.id === newCartItem.id);
+
+        if (existingItemIndex !== -1) {
+            // If the item already exists, increase its quantity by 1
+            cart.cartItems[existingItemIndex].qty += 1;
+        } else {
+            // If the item doesn't exist, add it to the cart
+            cart.cartItems.push(newCartItem);
+        }
+        // Update the cart with the modified cartItems
+        await db.collection('cartitems').updateOne({ userId: userid }, { $set: { cartItems: cart.cartItems } });
+        return res.status(200).json({ message: 'Cart updated successfully' });
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+});

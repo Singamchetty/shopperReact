@@ -15,7 +15,7 @@ const initialState: cartStateType = {
 
 export const fetchCartItems:any= createAsyncThunk('cart/fetchCartItems', async (userid) => {
     return await axios.get(`http://localhost:4000/cartItems/${userid}`)
-        .then(response => response.data);
+        .then(response => response.data.cartItems);
 });
 
 const cartSlice = createSlice({

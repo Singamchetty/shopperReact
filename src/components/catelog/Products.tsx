@@ -19,7 +19,7 @@ const Products = memo(() => {
                 navigate('/login');
             } else {
                 dispatch(fetchProducts());
-                console.log(user)
+                // console.log(user)
             }
         } else {
             navigate('/login');

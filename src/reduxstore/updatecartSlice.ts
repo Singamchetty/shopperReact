@@ -9,7 +9,7 @@ type updateCartStateType = {
 
 type  CartItemType = {
     userId:string,
-    updateCartlist:any
+    updateCartItems:any
 }
 
 const initialState: updateCartStateType = {
@@ -18,9 +18,8 @@ const initialState: updateCartStateType = {
     error: ''
 };
 
-export const updateCartItems:any= createAsyncThunk('updatecart/updateCartItems', async ({userId,updateCartlist}:CartItemType) => {
-    console.log(updateCartlist)
-    return await axios.post(`http://localhost:4000/updateCartItems/${userId}`,updateCartlist)
+export const updateCartItems:any= createAsyncThunk('updatecart/updateCartItems', async ({userId,updateCartItems}:CartItemType) => {
+    return await axios.patch(`http://localhost:4000/updateCartItems/${userId}`,updateCartItems)
         .then(response => response.data);
 });
 
