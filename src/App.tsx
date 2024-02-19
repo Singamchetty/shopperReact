@@ -8,12 +8,15 @@ import Profile from './components/Profile/Profile';
 import ForgetPasswordForm from './components/ForgetPasswordForm/ForgetPasswordForm';
 import { Provider } from 'react-redux';
 import store from './reduxstore/store';
+import Navbar from './components/Navbar/Navbar';
+import Footer from './components/Footer/Footer';
  
 function App() {
  
   return (
  <Provider store={store}>
       <BrowserRouter>
+      <Navbar/>
      <Routes>
         <Route path="/" Component={Home}/>
         <Route path="/login" Component={Login} />
@@ -23,6 +26,7 @@ function App() {
         <Route path="/forgot-password"  Component={ForgetPasswordForm}/>
            
         </Routes>
+        <Footer/>
       </BrowserRouter>
  </Provider>
   );
