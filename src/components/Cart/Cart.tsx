@@ -10,14 +10,14 @@ const Cart = memo(() => {
     const cartItems = useSelector((state: RootState) => state.cart.cartItems);
     const user = useSelector((state: RootState) => state.userDetails.userDetails);
     const capitalizedUserId = user && user.userId ? user.userId.charAt(0).toUpperCase() + user.userId.slice(1) : null;
-    const [preCartItems,setPreCartItems]=useState(cartItems);
+    // const [preCartItems,setPreCartItems]=useState(cartItems);
     useEffect(()=>{
         if(Object.keys(user).length===0){
             navigate('/login')
         }else{
             dispatch(fetchCartItems(user.userId))
         }
-    },[])
+    },[cartItems])
     const handleCartItems=()=>{
         dispatch(fetchCartItems(user.userId))
     }
@@ -25,14 +25,14 @@ const Cart = memo(() => {
     return (
         <div>
             <div>
-                <button type="button" onClick={handleCartItems} className="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button type="button" onClick={handleCartItems} className="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#cartModal">
                    <span className='bi bi-cart'></span> Cart
                 </button>
-                <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal fade" id="cartModal" tabIndex={-1} aria-labelledby="cartModalLabel" aria-hidden="true">
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h1 className="modal-title fs-5" id="exampleModalLabel">{capitalizedUserId}'s Cart</h1>
+                                <h1 className="modal-title fs-5" id="cartModalLabel">{capitalizedUserId}'s Cart</h1>
                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div className="modal-body">
@@ -57,10 +57,10 @@ const Cart = memo(() => {
                                     </tbody>
                                 </table>
                             </div>
-                            <div className="modal-footer">
+                            {/* <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="button" className="btn btn-primary">Save changes</button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
