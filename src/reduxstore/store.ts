@@ -3,21 +3,30 @@ import cartReducer,{CartStateType} from './cartSlice'
 import productsReducer,{ProductsStateType} from './productsSlice'
 import usersReducer,{UsersStateType} from './usersSlice'
 import userDetailsslice,{UserDetailsType} from './userDetailsslice'
+import storage from 'redux-persist/lib/storage';
+import { persistReducer, persistStore } from 'redux-persist';
 
+const persistConfig={
+    key: "root", 
+    storage
+}
 export type RootState= {
     products:ProductsStateType;
     cart: CartStateType;
     users: UsersStateType;
     userDetails:UserDetailsType
   }
+const persistUserDetailsReducer=persistReducer(persistConfig,userDetailsslice)
 const store=configureStore({
     reducer:{
         products:productsReducer,
         cart: cartReducer,
         users: usersReducer,
-        userDetails:userDetailsslice
+        userDetails:persistUserDetailsReducer
     },
 })
+
+export const  persistor = persistStore(store);
 
 
 export default store

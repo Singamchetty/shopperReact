@@ -17,7 +17,7 @@ const Cart = memo(() => {
         }else{
             dispatch(fetchCartItems(user.userId))
         }
-    },[cartItems])
+    },[])
     const handleCartItems=()=>{
         dispatch(fetchCartItems(user.userId))
     }

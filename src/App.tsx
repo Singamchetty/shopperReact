@@ -9,14 +9,16 @@ import Products from './components/catelog/Products';
 import Product from './components/catelog/Product';
 import ForgetPasswordForm from './components/ForgetPasswordForm/ForgetPasswordForm';
 import { Provider } from 'react-redux';
-import store from './reduxstore/store';
+import store,{persistor} from './reduxstore/store';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
+import { PersistGate } from 'redux-persist/integration/react';
  
 function App() {
  
   return (
  <Provider store={store}>
+  <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter>
       <Navbar/>
      <Routes>
@@ -31,6 +33,7 @@ function App() {
         </Routes>
         <Footer/>
       </BrowserRouter>
+      </PersistGate>
  </Provider>
   );
 }
