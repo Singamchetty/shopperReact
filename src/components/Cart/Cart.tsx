@@ -1,4 +1,4 @@
-import React, { memo,useMemo, useCallback, useEffect} from 'react';
+import React, { memo, useMemo, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../reduxstore/store';
 import { fetchCartItems, updateCartItems, removeFromCart, clearCart, incrementQuantity, decrementQuantity } from '../../reduxstore/cartSlice';
@@ -12,20 +12,24 @@ const Cart = memo(() => {
     const capitalizedUserId = user && user.userId ? user.userId.charAt(0).toUpperCase() + user.userId.slice(1) : null;
 
     useEffect(() => {
-        if (Object.keys(user).length === 0) {
-            navigate('/login')
-        } else {
-            dispatch(fetchCartItems(user.userId))
+        if (user) {
+            if (Object.keys(user).length === 0) {
+                navigate('/login')
+            } else {
+                dispatch(fetchCartItems(user.userId))
+            }
         }
     }, [user])
     const handleCartChanges = () => {
-        dispatch(updateCartItems({ userId: user.userId, updateCartItems: cartItems }))
+        if (user) {
+            dispatch(updateCartItems({ userId: user.userId, updateCartItems: cartItems }))
+        }
     }
-    const totalPay=useMemo(()=>{
-        return cartItems.reduce((acc,curr)=>{
-          return acc=acc+ (parseInt(curr.price) * parseInt(curr.qty));
-    },0)
-},[cartItems])
+    const totalPay = useMemo(() => {
+        return cartItems.reduce((acc, curr) => {
+            return acc = acc + (parseInt(curr.price) * parseInt(curr.qty));
+        }, 0)
+    }, [cartItems])
 
 
     return (
@@ -59,9 +63,9 @@ const Cart = memo(() => {
                                                 <td>{item.price}</td>
                                                 <td>
                                                     <span className='d-flex justify-content-start align-items-center'>
-                                                    <button onClick={()=>{dispatch(decrementQuantity(item))}} className='btn btn-tranparent fw-bolder d-flex justify-content-center align-items-center' style={{ height: "15px", width: "15px" }}>-</button>
-                                                    <span> {item.qty} </span>
-                                                    <button onClick={()=>{dispatch(incrementQuantity(item))}} className='btn btn-tranparent fw-bolder d-flex justify-content-center align-items-center' style={{ height: "10px", width: "8px" }}>+</button>
+                                                        <button onClick={() => { dispatch(decrementQuantity(item)) }} className='btn btn-tranparent fw-bolder d-flex justify-content-center align-items-center' style={{ height: "15px", width: "15px" }}>-</button>
+                                                        <span> {item.qty} </span>
+                                                        <button onClick={() => { dispatch(incrementQuantity(item)) }} className='btn btn-tranparent fw-bolder d-flex justify-content-center align-items-center' style={{ height: "10px", width: "8px" }}>+</button>
                                                     </span>
                                                 </td>
                                                 <td>$ {(item.price * item.qty).toFixed()}</td>

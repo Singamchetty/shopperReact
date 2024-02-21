@@ -26,7 +26,7 @@ export const fetchCartItems: any = createAsyncThunk('cart/fetchCartItems', async
 export const updateCartItems: any = createAsyncThunk('updatecart/updateCartItems', async ({ userId, updateCartItems }: CartItemType) => {
     return await axios.patch(`http://localhost:4000/updateCartItems/${userId}`, updateCartItems)
         .then(response => {
-            console.log(response.data);
+            // console.log(response.data);
             return response.data
         });
 });
@@ -77,6 +77,8 @@ const cartSlice = createSlice({
                     prevCartItems[index] = updatedItem;
                     state.cartItems = [...prevCartItems];
                 }
+            }else{
+                alert("Use remove button")
             }
         }
     },

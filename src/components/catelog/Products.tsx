@@ -13,16 +13,21 @@ const Products = memo(() => {
     const user = useSelector((state: RootState) => state.userDetails.userDetails)
     
     useEffect(() => {
-        if (user !== null) {
-            const isEmpty = Object.keys(user).length === 0 && user.constructor === Object;
-            if (isEmpty) {
-                navigate('/login');
-            } else {
-                dispatch(fetchProducts());
-            }
-        } else {
-            navigate('/login');
-        }
+        // if (user !== null) {
+        //     const isEmpty = Object.keys(user).length === 0 && user.constructor === Object;
+        //     if (isEmpty) {
+        //         navigate('/login');
+        //     } else {
+        //         dispatch(fetchProducts());
+        //     }
+        // } else {
+        //     navigate('/login');
+        // }
+        if (user) {
+            dispatch(fetchProducts())
+          } else {
+            navigate('/login')
+          }
 
     }, [user])
     if (products.loading) { return <div className="text-center mt-5">Loading...</div> }

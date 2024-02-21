@@ -1,9 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit"
+
+type  User = {
+    userId: string;
+    fname: string;  lname: string;  email: string
+    mobile: string;
+    password: string;}|null;
+
 export type UserDetailsType={
-    userDetails:any|null
+    userDetails:User|null
 }
 const initialState:UserDetailsType={
-    userDetails:{},
+    userDetails:null
 }
 
 const userDetailsSlice=createSlice({
@@ -14,7 +21,7 @@ const userDetailsSlice=createSlice({
             state.userDetails=action.payload
         },
         logoutUser:(state)=>{
-            state.userDetails={}
+            state.userDetails=null
         },
     },
 })

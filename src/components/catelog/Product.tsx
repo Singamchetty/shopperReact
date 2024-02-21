@@ -26,10 +26,12 @@ const Product = memo((props: ProductPropsType) => {
     const {id,title,description,category,image,rating:{rate,count},qty,price}:ProductType= props.product!;
 
     const handleAddtoCart=()=>{
+        if(user){
         if(Object.keys(user).length!=0){
         // dispatch(updateCartItems({userId:user.userId,updateCartItems:props.product}))
         dispatch(addToCart(props.product))
-        }    
+        }  
+    }  
     }
 
 

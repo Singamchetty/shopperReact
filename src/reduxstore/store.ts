@@ -1,14 +1,15 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore ,Tuple} from '@reduxjs/toolkit'
 import cartReducer,{CartStateType} from './cartSlice'
 import productsReducer,{ProductsStateType} from './productsSlice'
 import usersReducer,{UsersStateType} from './usersSlice'
 import userDetailsslice,{UserDetailsType} from './userDetailsslice'
 import sessionStorage from 'redux-persist/es/storage/session'
 import { persistReducer, persistStore } from 'redux-persist';
+import { thunk } from 'redux-thunk'
 
 const persistConfig={
     key: "root", 
-    storage:sessionStorage
+    storage:sessionStorage,
 }
 export type RootState= {
     products:ProductsStateType;
@@ -24,6 +25,7 @@ const store=configureStore({
         users: usersReducer,
         userDetails:persistUserDetailsReducer
     },
+    middleware:()=>new Tuple(thunk)
 })
 
 export const  persistor = persistStore(store);
