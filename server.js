@@ -127,26 +127,27 @@ app.patch('/updateCartItems/:userid', async (req, res) => {
     }
 
     try {
-        const cart = await db.collection('cartitems').findOne({ userId: userid });
+        // const cart = await db.collection('cartitems').findOne({ userId: userid });
 
-        if (!cart) {
-            // If cart doesn't exist, create a new one with the newCartItem
-            await db.collection('cartitems').insertOne({ userId: userid, cartItems: [newCartItem] });
-            return res.status(200).json({ message: 'Cart created with new item' });
-        }
+        // if (!cart) {
+        //     // If cart doesn't exist, create a new one with the newCartItem
+        //     await db.collection('cartitems').insertOne({ userId: userid, cartItems: [newCartItem] });
+        //     return res.status(200).json({ message: 'Cart created with new item' });
+        // }
 
-        // Check if the item already exists in the cart
-        const existingItemIndex = cart.cartItems.findIndex(item => item.id === newCartItem.id);
+        // // Check if the item already exists in the cart
+        // const existingItemIndex = cart.cartItems.findIndex(item => item.id === newCartItem.id);
 
-        if (existingItemIndex !== -1) {
-            // If the item already exists, increase its quantity by 1
-            cart.cartItems[existingItemIndex].qty += 1;
-        } else {
-            // If the item doesn't exist, add it to the cart
-            cart.cartItems.push(newCartItem);
-        }
-        // Update the cart with the modified cartItems
-        await db.collection('cartitems').updateOne({ userId: userid }, { $set: { cartItems: cart.cartItems } });
+        // if (existingItemIndex !== -1) {
+        //     // If the item already exists, increase its quantity by 1
+        //     cart.cartItems[existingItemIndex].qty += 1;
+        // } else {
+        //     // If the item doesn't exist, add it to the cart
+        //     cart.cartItems.push(newCartItem);
+        // }
+        // // Update the cart with the modified cartItems
+        // await db.collection('cartitems').updateOne({ userId: userid }, { $set: { cartItems: cart.cartItems } });
+        await db.collection('cartitems').updateOne({ userId: userid }, { $set: { cartItems: newCartItem} });
         return res.status(200).json({ message: 'Cart updated successfully' });
     } catch (error) {
         return res.status(500).json({ error: error.message });

@@ -19,7 +19,6 @@ const Products = memo(() => {
                 navigate('/login');
             } else {
                 dispatch(fetchProducts());
-                // console.log(user)
             }
         } else {
             navigate('/login');
@@ -27,7 +26,7 @@ const Products = memo(() => {
 
     }, [user])
     if (products.loading) { return <div className="text-center mt-5">Loading...</div> }
-    else if(products.error!=="") { return <h1>{products.error}</h1>}
+    else if(products.loading && products.error!="") { return <h1>{products.error}</h1>}
     else {
         return (
             <div className='row d-flex justify-content-evenly bg-dark'>

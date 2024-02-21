@@ -5,7 +5,6 @@ import { RootState } from '../../reduxstore/store';
 const Profile = memo(() => {
     const userData = useSelector((state: RootState) => state.userDetails.userDetails);
 
-    useEffect(()=>{console.log(userData)},[userData])
 
     return (
         <div>

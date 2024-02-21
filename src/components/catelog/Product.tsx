@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { useDispatch,useSelector } from 'react-redux';
-import { updateCartItems } from '../../reduxstore/updatecartSlice';
 import { RootState } from '../../reduxstore/store';
+import { addToCart } from '../../reduxstore/cartSlice';
 
 type ProductType = {
     _id:string
@@ -27,7 +27,8 @@ const Product = memo((props: ProductPropsType) => {
 
     const handleAddtoCart=()=>{
         if(Object.keys(user).length!=0){
-        dispatch(updateCartItems({userId:user.userId,updateCartItems:props.product}))
+        // dispatch(updateCartItems({userId:user.userId,updateCartItems:props.product}))
+        dispatch(addToCart(props.product))
         }    
     }
 
