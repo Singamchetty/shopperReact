@@ -93,7 +93,7 @@ const Cart = memo(() => {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" onClick={handleDontSave} data-bs-dismiss="modal">Dont Save Changes</button>
-                                <button type="button" className="btn btn-primary" onClick={handleCartChanges}>Save Changes</button>
+                                <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleCartChanges}>Save Changes</button>
                             </div>
                         </div>
                     </div>
