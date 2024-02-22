@@ -14,7 +14,7 @@ const NavButtons = memo((props:NavButtonsProps) => {
     const user = useSelector((state: RootState) => state.userDetails.userDetails);
     return (
         <div className='d-flex'>
-            { user && (Object.keys(user).length===0 && user.constructor === Object) ?(
+            { user===null ?(
                 <div className='nav-login-cart'>
                     <Link to="/login"><button>Login</button></Link>
                     <Link to="/register">

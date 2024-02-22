@@ -25,6 +25,16 @@ const Cart = memo(() => {
             dispatch(updateCartItems({ userId: user.userId, updateCartItems: cartItems }))
         }
     }
+
+    const handleDontSave=()=>{
+        if (user) {
+            if (Object.keys(user).length === 0) {
+                navigate('/login')
+            } else {
+                dispatch(fetchCartItems(user.userId))
+            }
+        }
+    }
     const totalPay = useMemo(() => {
         return cartItems.reduce((acc, curr) => {
             return acc = acc + (parseInt(curr.price) * parseInt(curr.qty));
@@ -38,12 +48,12 @@ const Cart = memo(() => {
                 <button type="button" className="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#cartModal">
                     <span className='bi bi-cart'></span> Cart
                 </button>
-                <div className="modal fade" id="cartModal" tabIndex={-1} aria-labelledby="cartModalLabel" aria-hidden="true">
+                <div className="modal fade"  data-bs-backdrop="static"  id="cartModal" tabIndex={-1} aria-labelledby="cartModalLabel" aria-hidden="true">
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h1 className="modal-title fs-5" id="cartModalLabel">{capitalizedUserId}'s Cart</h1>
-                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                {/* <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> */}
                             </div>
                             <div className="modal-body">
                                 <table className='table table-hover m-0'>
@@ -82,7 +92,7 @@ const Cart = memo(() => {
                                 </table>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" className="btn btn-secondary" onClick={handleDontSave} data-bs-dismiss="modal">Dont Save Changes</button>
                                 <button type="button" className="btn btn-primary" onClick={handleCartChanges}>Save Changes</button>
                             </div>
                         </div>

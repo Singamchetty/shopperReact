@@ -52,7 +52,6 @@ const cartSlice = createSlice({
         removeFromCart: (state, action) => {
             state.loading = true;
             const removeItem = action.payload;
-            console.log(removeItem)
             const filteredItems = state.cartItems.filter((item) => item.id !== removeItem.id);
             state.cartItems = filteredItems;
         },
