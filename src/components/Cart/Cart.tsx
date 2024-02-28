@@ -26,7 +26,7 @@ const Cart = memo(() => {
         }
     }
 
-    const handleDontSave=()=>{
+    const handleDontSave = () => {
         if (user) {
             if (Object.keys(user).length === 0) {
                 navigate('/login')
@@ -45,10 +45,14 @@ const Cart = memo(() => {
     return (
         <div>
             <div>
-                <button type="button" className="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#cartModal">
+                <button type="button" className="btn btn-primary mx-2 position-relative" data-bs-toggle="modal" data-bs-target="#cartModal">
                     <span className='bi bi-cart'></span> Cart
+                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {cartItems!=null?<span>{cartItems.length}</span>:0}
+                        <span className="visually-hidden">Cart Items Count</span>
+                    </span>
                 </button>
-                <div className="modal fade"  data-bs-backdrop="static"  id="cartModal" tabIndex={-1} aria-labelledby="cartModalLabel" aria-hidden="true">
+                <div className="modal fade" data-bs-backdrop="static" id="cartModal" tabIndex={-1} aria-labelledby="cartModalLabel" aria-hidden="true">
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
