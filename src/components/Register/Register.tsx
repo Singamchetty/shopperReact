@@ -114,7 +114,7 @@ const Register = () => {
         await axios.post('http://localhost:4000/registeruser', values)
             .then((res) => {
                 navigate("/login")
-                console.log(res.data)
+                // console.log(res.data)
             })
             .catch((err) => console.log(err))
     }

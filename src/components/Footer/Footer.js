@@ -11,11 +11,11 @@ const Footer = () => {
            <div className='footer-logo'>
 
             </div> 
-            <ul className='footer-link'>
+            {/* <ul className='footer-link'>
                <li>Products</li> 
                <li>About</li> 
                <li>Contact</li>
-            </ul> 
+            </ul>  */}
             <div className='footer-social-icon'> 
             <div className='footer-icons-container'>
                  <img src={instagram_icon} alt=""/> 

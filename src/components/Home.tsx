@@ -18,7 +18,7 @@ const Home = memo(() => {
       if (user) {
           navigate('/products')
         } else {
-          navigate('/login')
+          navigate('/')
         }
 
   }, [user])
