@@ -45,7 +45,7 @@ const Cart = memo(() => {
     return (
         <div>
             <div>
-                <button type="button" className="btn btn-primary mx-2 position-relative" data-bs-toggle="modal" data-bs-target="#cartModal">
+                <button type="button" className="btn btn-primary mx-3 position-relative" data-bs-toggle="modal" data-bs-target="#cartModal">
                     <span className='bi bi-cart'></span> Cart
                     <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                         {cartItems!=null?<span>{cartItems.length}</span>:0}
@@ -59,9 +59,9 @@ const Cart = memo(() => {
                                 <h1 className="modal-title fs-5" id="cartModalLabel">{capitalizedUserId}'s Cart</h1>
                                 {/* <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> */}
                             </div>
-                            <div className="modal-body">
-                                <table className='table table-hover m-0'>
-                                    <thead>
+                            <div className="modal-body m-0 pt-0" style={{maxHeight:'350px',minHeight:'250px',scrollbarWidth:'thin',overflowY:'scroll'}}>
+                                <table className='table table-hover' >
+                                    <thead className='position-sticky top-0 bg-white'>
                                         <tr>
                                             <th>Preview</th>
                                             <th>Price</th>

@@ -49,6 +49,9 @@ const Register = () => {
                 }
             })
         }
+        if (values.userId !== "" && values.userId.length > 10) {
+            errors.userIdErr = "UserId should be only upto 10 characters"
+        }
         if (values.fname != "" && values.fname.length <= 4) {
             errors.fnameErr = "Name should be more than 4 characters"
         } else {

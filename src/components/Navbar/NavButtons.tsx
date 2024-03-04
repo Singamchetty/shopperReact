@@ -24,7 +24,7 @@ const NavButtons = memo((props:NavButtonsProps) => {
                 <Profile/>
                 <Cart/>
                 <Link to="/">
-                    <button className='btn btn-danger' onClick={props.handleLogout}>Logout</button>
+                    <button className='btn btn-danger me-2' onClick={props.handleLogout}>Logout</button>
                 </Link>
                 </>
             ) }
