@@ -117,14 +117,16 @@ const Register = () => {
         await axios.post('http://localhost:4000/registeruser', values)
             .then((res) => {
                 navigate("/login")
-                // console.log(res.data)
             })
-            .catch((err) => console.log(err))
+            .catch((err) =>{
+                setUserErr({...userErr,userIdErr:err.response.data.error})
+             console.log(err)
+            })
     }
 
-    useEffect(() => {
-        dispatch(fetchUsers());
-    }, []);
+    // useEffect(() => {
+    //     dispatch(fetchUsers());
+    // }, []);
 
     return (
         <div className='wrapper'>

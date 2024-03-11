@@ -81,14 +81,14 @@ app.post('/registeruser', checkUserIdExists, (req, res) => {
 });
 
 // Get Users endpoint
-// app.get('/users', (req, res) => {
-//     // db.collection('users').find({}, { projection: { _id: false, userId: true, password: true } }).toArray()
-//     db.collection('users').find({}, { projection: { _id: false } }).toArray()
-//         .then(result => {
-//             res.send(result);
-//         })
-//         .catch(error => res.status(500).send(error));
-// });
+app.get('/users', (req, res) => {
+    // db.collection('users').find({}, { projection: { _id: false, userId: true, password: true } }).toArray()
+    db.collection('users').find({}, { projection: { _id: false } }).toArray()
+        .then(result => {
+            res.send(result);
+        })
+        .catch(error => res.status(500).send(error));
+});
 
 //login api
 app.post('/login', async (req, res) => {

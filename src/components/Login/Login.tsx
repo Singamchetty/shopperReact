@@ -22,16 +22,15 @@ const Login: React.FC = memo(() => {
         password: ""
     })
 
-    useEffect(() => {
-        dispatch(fetchUsers());
-    }, []);
+    // useEffect(() => {
+    //     dispatch(fetchUsers());
+    // }, []);
     useEffect(() => {
         if (user) {
             navigate('/products')
         } else {
             navigate('/login')
         }
-
     }, [user])
 
     const handleSubmit = async (e: any) => {
@@ -39,7 +38,6 @@ const Login: React.FC = memo(() => {
         await axios.post('http://localhost:4000/login', values)
             .then((res) => {
                 dispatch(loginUser(res.data.user))
-                // console.log(res.data.user)
                 navigate("/products")
             })
             .catch((err) => setError(err.response.data.message))
