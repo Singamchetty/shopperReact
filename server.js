@@ -81,13 +81,34 @@ app.post('/registeruser', checkUserIdExists, (req, res) => {
 });
 
 // Get Users endpoint
-app.get('/users', (req, res) => {
-    // db.collection('users').find({}, { projection: { _id: false, userId: true, password: true } }).toArray()
-    db.collection('users').find({}, { projection: { _id: false } }).toArray()
-        .then(result => {
-            res.send(result);
-        })
-        .catch(error => res.status(500).send(error));
+// app.get('/users', (req, res) => {
+//     // db.collection('users').find({}, { projection: { _id: false, userId: true, password: true } }).toArray()
+//     db.collection('users').find({}, { projection: { _id: false } }).toArray()
+//         .then(result => {
+//             res.send(result);
+//         })
+//         .catch(error => res.status(500).send(error));
+// });
+
+//login api
+app.post('/login', async (req, res) => {
+    const { userId, password } = req.body;
+    try {
+      const user = await db.collection('users').findOne({userId:userId})
+      if (!user) {
+        return res.status(401).json({ error: 'Authentication failed', message: 'User not found' });
+      }
+      if (password === user.password && userId === user.userId) { 
+        delete user.password;
+        delete user._id;
+        res.json({ message: 'Login successful', user });
+      } else {
+        res.status(401).json({ error: 'Authentication failed', message: 'Email and password do not match' });
+      }
+    }
+    catch (error) {
+      res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
 });
 
 app.delete('/deregister/:userid', (req, res) => {

@@ -1,5 +1,6 @@
 import React, { memo, useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import "./Login.css"
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
@@ -33,28 +34,39 @@ const Login: React.FC = memo(() => {
 
     }, [user])
 
+    const handleSubmit = async (e: any) => {
+        e.preventDefault()
+        await axios.post('http://localhost:4000/login', values)
+            .then((res) => {
+                dispatch(loginUser(res.data.user))
+                // console.log(res.data.user)
+                navigate("/products")
+            })
+            .catch((err) => setError(err.response.data.message))
+    }
+ 
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        users.map((user) => {
-            if (user.userId == values.userId.trim()) {
-                if (user.password == values.password.trim()) {
-                    // console.log(user)  
-                    dispatch(loginUser(user))
-                    navigate("/products")
+    // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    //     e.preventDefault();
+    //     users.map((user) => {
+    //         if (user.userId == values.userId.trim()) {
+    //             if (user.password == values.password.trim()) {
+    //                 // console.log(user)  
+    //                 dispatch(loginUser(user))
+    //                 navigate("/products")
 
-                }
-                else {
-                    setError(("UserId/Password is incorrect"))
-                }
-            }
-            else {
-                setError(("UserId/Password is incorrect"))
-            }
-        })
+    //             }
+    //             else {
+    //                 setError(("UserId/Password is incorrect"))
+    //             }
+    //         }
+    //         else {
+    //             setError(("UserId/Password is incorrect"))
+    //         }
+    //     })
 
 
-    };
+    // };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
