@@ -37,7 +37,7 @@ const Cart = memo(() => {
     }
     const totalPay = useMemo(() => {
         return cartItems.reduce((acc, curr) => {
-            return acc = acc + (parseInt(curr.price) * parseInt(curr.qty));
+            return acc = acc + (Number(curr.price) * Number(curr.qty));
         }, 0)
     }, [cartItems])
 
@@ -74,15 +74,15 @@ const Cart = memo(() => {
                                         {
                                             cartItems.length > 0 && cartItems.map((item) => <tr key={item.id}>
                                                 <td><img src={item.image} width={50} height={50} /></td>
-                                                <td>{item.price}</td>
+                                                <td>{Number(item.price)}</td>
                                                 <td>
                                                     <span className='d-flex justify-content-start align-items-center'>
                                                         <button onClick={() => { dispatch(decrementQuantity(item)) }} className='btn btn-tranparent fw-bolder d-flex justify-content-center align-items-center' style={{ height: "15px", width: "15px" }}>-</button>
-                                                        <span> {item.qty} </span>
+                                                        <span> {Number(item.qty)} </span>
                                                         <button onClick={() => { dispatch(incrementQuantity(item)) }} className='btn btn-tranparent fw-bolder d-flex justify-content-center align-items-center' style={{ height: "10px", width: "8px" }}>+</button>
                                                     </span>
                                                 </td>
-                                                <td>$ {(item.price * item.qty).toFixed()}</td>
+                                                <td>$ {(Number(item.price) * Number(item.qty)).toFixed()}</td>
                                                 <td><button onClick={() => dispatch(removeFromCart(item))} className='bi bi-trash text-danger bg-transparent border-0'></button></td>
                                             </tr>)
                                         }

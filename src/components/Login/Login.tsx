@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { fetchUsers } from '../../reduxstore/usersSlice';
 import { RootState } from '../../reduxstore/store';
 import { loginUser } from '../../reduxstore/userDetailsslice';
+import { base_url } from '../../utils/constants';
 
 
 const Login: React.FC = memo(() => {
@@ -35,12 +36,12 @@ const Login: React.FC = memo(() => {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
-        await axios.post('http://localhost:4000/login', values)
+        await axios.post(`${base_url}/login`, values)
             .then((res) => {
-                dispatch(loginUser(res.data.user))
+                dispatch(loginUser(res.data?.user))
                 navigate("/products")
             })
-            .catch((err) => setError(err.response.data.message))
+            .catch((err) => setError(err.response.data?.message))
     }
  
 

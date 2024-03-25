@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { base_url } from '../utils/constants';
 
 type usersStateType = {
     loading: boolean;
@@ -14,7 +15,7 @@ const initialState: usersStateType = {
 };
 
 export const fetchUsers:any= createAsyncThunk('users/fetchUsers', async () => {
-    return await axios.get('http://localhost:4000/users')
+    return await axios.get(`${base_url}/users`)
         .then(response => response.data);
 });
 

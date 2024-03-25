@@ -137,19 +137,27 @@ app.patch('/updateuser/:id', (req, res) => {
     }
 })
 
-app.get('/cartItems/:userid', (req, res) => {
+app.get('/cartItems/:userid', async(req, res) => {
     const userid = req.params.userid
     const usernameRegex = /^[a-zA-Z0-9_]{1,10}$/;
     if (usernameRegex.test(userid)) {
-        db.collection('cartitems').findOne({ userId: userid })
-        .then(result => {
+        try {
+            const result = await db.collection('cartitems').findOne({ userId: userid });
             if (result != null) {
                 res.status(200).send(result);
             } else {
-                res.status(404).json({ error: 'UserCart not found' });
+                // Create a new cartItems collection
+                const userName = userid; // Assuming userName is the same as userId
+                const newCollection = {
+                    userId: userName,
+                    cartItems: []
+                };
+                await db.collection('cartitems').insertOne(newCollection);
+                res.status(200).send(newCollection);
             }
-        })
-        .catch(error => res.status(500).send(error))
+        } catch (error) {
+            res.status(401).send(error);
+        }
     } else {
         res.status(400).json({ error: 'Invalid UserId' })
     }

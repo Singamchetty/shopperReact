@@ -5,6 +5,7 @@ import './Register.css';
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchUsers } from '../../reduxstore/usersSlice';
 import { RootState } from '../../reduxstore/store';
+import { base_url } from '../../utils/constants';
 
 const Register = () => {
     const navigate = useNavigate()
@@ -114,7 +115,7 @@ const Register = () => {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
-        await axios.post('http://localhost:4000/registeruser', values)
+        await axios.post(`${base_url}/registeruser`, values)
             .then((res) => {
                 navigate("/login")
             })

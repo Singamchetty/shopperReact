@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { base_url } from '../utils/constants';
 
 
 type cartStateType = {
@@ -19,14 +20,13 @@ const initialState: cartStateType = {
 };
 
 export const fetchCartItems: any = createAsyncThunk('cart/fetchCartItems', async (userid) => {
-    return await axios.get(`http://localhost:4000/cartItems/${userid}`)
+    return await axios.get(`${base_url}/cartItems/${userid}`)
         .then(response => response.data.cartItems);
 });
 
 export const updateCartItems: any = createAsyncThunk('updatecart/updateCartItems', async ({ userId, updateCartItems }: CartItemType) => {
-    return await axios.patch(`http://localhost:4000/updateCartItems/${userId}`, updateCartItems)
+    return await axios.patch(`${base_url}/updateCartItems/${userId}`, updateCartItems)
         .then(response => {
-            // console.log(response.data);
             return response.data
         });
 });
@@ -41,7 +41,7 @@ const cartSlice = createSlice({
             const newItem = action.payload;
             if (prevCartItems.find((item) => item.id === newItem.id)) {
                 const index = prevCartItems.indexOf(prevCartItems.find((item) => item.id === newItem.id));
-                let updatedItem = { ...prevCartItems[index], qty: prevCartItems[index].qty + 1 };
+                let updatedItem = { ...prevCartItems[index], qty: prevCartItems[index].qty + Number(1) };
                 prevCartItems[index] = updatedItem;
                 state.cartItems = [...prevCartItems];
             } else {
